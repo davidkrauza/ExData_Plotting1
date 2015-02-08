@@ -1,6 +1,6 @@
 #Read in data set, set NAs = ?
 data <- read.table("../Data/household_power_consumption.txt", sep=";", dec="."
-                 , header=TRUE, na.strings="?")
+                   , header=TRUE, na.strings="?")
 
 #Convert date strings to date class
 data$Date <- as.Date(data$Date, format="%d/%m/%Y")
@@ -14,10 +14,11 @@ rm(data)
 
 #Convert Numbers
 data.subset$Global_active_power <- as.numeric(data.subset$Global_active_power)
+datetime <- paste(data.subset$Date, data.subset$Time)
+data.subset$Datetime <- as.POSIXct(datetime)
 
 #Create Plot
-png.directory = paste(getwd(),"/","plot1.png", sep="")
-png(png.directory, width=480, height=480, units="px")
-hist(data.subset$Global_active_power, main="Global Active Power"
-     , xlab="Global Active Power (kw)", ylab="Frequency", col="red")
+png(filename="plot2.png", width=480, height=480, units="px")
+plot(data.subset$Datetime, data.subset$Global_active_power
+     , type="l", xlab="", ylab="Global Active Power (kw)")
 dev.off()
